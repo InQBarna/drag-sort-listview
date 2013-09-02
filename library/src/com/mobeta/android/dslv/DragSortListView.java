@@ -347,7 +347,7 @@ public class DragSortListView extends ListView {
     /**
      * Let the user customize the floating View.
      */
-    private FloatViewManager mFloatViewManager = null;
+    protected FloatViewManager mFloatViewManager = null;
 
     /**
      * Given to ListView to cancel its action when a drag-sort
