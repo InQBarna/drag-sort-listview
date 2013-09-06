@@ -45,7 +45,7 @@ public class TwoActionDragSortController extends DragSortController {
 					Log.d("M", "Paso por aqui??!!!");
 					int removePoint = mDslv.getWidth() / 2;
 					if (mPositionX > removePoint) {
-						Log.d("M", "AutoSort!!!");
+						((SplyceDragSortListView) mDslv).stopDragAutoSort(0);
 					} else if (mPositionX < -removePoint) {
 						mDslv.stopDragWithVelocity(true, 0);
 					} else {
@@ -65,7 +65,7 @@ public class TwoActionDragSortController extends DragSortController {
 	@Override
 	public void onLongPress(MotionEvent e) {
 		Log.d("mobeta", "lift listener long pressed");
-		mHitPos = mDslv.pointToPosition((int)e.getX(), (int)e.getY());
+		mHitPos = mDslv.pointToPosition((int) e.getX(), (int) e.getY());
 		if (mHitPos != MISS && mDragInitMode == ON_LONG_PRESS) {
 			mDslv.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
 			startDrag(mHitPos, mCurrX - mItemX, mCurrY - mItemY);
@@ -81,7 +81,11 @@ public class TwoActionDragSortController extends DragSortController {
 					if (mRemoveEnabled && mIsRemoving) {
 						int w = mDslv.getWidth();
 						int minPos = w / 5;
-						if (velocityX < -mFlingSpeed) {
+						if (velocityX > mFlingSpeed) {
+							if (mPositionX > -minPos) {
+								((SplyceDragSortListView) mDslv).stopDragAutoSort(velocityY);
+							}
+						} else if (velocityX < -mFlingSpeed) {
 							if (mPositionX < minPos) {
 								mDslv.stopDragWithVelocity(true, velocityX);
 							}
